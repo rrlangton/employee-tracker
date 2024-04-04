@@ -10,6 +10,6 @@ To use this application you must install inquirer and Node.js in the command-lin
 
 ## Sources
 
-Instructer help in office hours with async/await queries 
-Tutoring help with writing the index.js
+Instructer help in office hours with async/await queries in the index.js
+Tutoring help with writing the code for viewing and adding departments in index.js
 mini-project help for setting up the schema.sql / seeds.sql
