@@ -12,7 +12,7 @@ const pool = new Pool (
     },
 )
 pool.connect();
-// prompts user to choose what they want to do from the list 
+// prompts user to choose what they want to do from a list 
 inquirer.prompt([
     {
         type: 'list',
@@ -138,19 +138,51 @@ inquirer.prompt([
         })
     }
 })
-// updates employee role
-.then(async (answers) => {
-    if (answers.selection === 'Update employee role') {
-        const results = await pool.query('SELECT * FROM employees');
-
-        console.table(results.rows)
+// add new employee role
+inquirer.prompt([
+    {
+        type: "list",
+        name: "role",
+        message: "What is the new employee's role?",
+        choices: [
+            ' Sales Lead',
+            'Salesperson',
+            'Lead Engineer',
+            'Software Engineer',
+            'Account Manager',
+            'Accountant',
+            'Legal Team Lead',
+            'Lawyer'
+        ]
     }
+])
+.then(async (answers) => {
 
+    const results = await pool.query('INSERT INTO roles (name) VALUES ($1)', [answers.role]);
+
+    console.log("Role for the new employee has been added")
+})
+// add salary for new employee
+inquirer.prompt([
+    {
+        type: "input",
+        name: "salary",
+        message: "What is salary for the new employee?"
+    }
+])
+.then(async (answers) => {
+
+    const results = await pool.query('INSERT INTO roles (name) VALUES ($1)', [answers.salary]);
+
+    console.log("Salary for the new employee has been added")
+})
+// Select from list employees 
+.then(async (answers) => {
     if (answers.selection === 'Update employee role') {
         inquirer.prompt([
             {
                 type: "list",
-                name: "selection",
+                name: "employees",
                 message: "Which employee's role do you want to update?",
                 choices: [
                     'John Doe',
@@ -164,9 +196,26 @@ inquirer.prompt([
                 ]
             }
         ])
+                inquirer.prompt([
+                    {
+                        type: "list",
+                        name: "new_role",
+                        message: "Which role do you want to assign the selected employee?",
+                        choices: [
+                         'Sales Lead',
+                         'Salesperson',
+                         'Lead Engineer',
+                         'Software Engineer',
+                         'Account Manager',
+                         'Accountant',
+                         'Legal Team Lead',
+                         'Lawyer'
+                        ]
+                    }
+                ])     
+        // updates employee role
         .then(async (answers) => {
-// INSERT INTO lines need to be fixed
-            const results = await pool.query('INSERT INTO roles (name) VALUES ($1)', [answers.employee_name]);
+            const results = await pool.query('INSERT INTO roles (name) VALUES ($1)', [answers.new_role]);
     
             console.log("Employee role updated")
         })
