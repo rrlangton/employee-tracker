@@ -6,7 +6,7 @@ This is a command-line application designed to manage a company's employee datab
 
 ## Installation
 
-To use this application you must install inquirer and Node.js in the command-line. You can run this application by entering 'npm start' in the command-line. 
+This application uses the inquirer package and the pg package. These packages must be installed and then you can run node index.js and psql -U postgres in the terminal. 
 
 ## Sources
 
