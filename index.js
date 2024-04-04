@@ -61,19 +61,27 @@ inquirer.prompt([
             name: "role_name",
             message: "What is the name of the new role?"
         });
+        
         const salary = await inquirer.prompt({
             type: "input",
             name: "salary",
             message: "What is the salary of the new role?"
         });
-        const roleData = {
-            title: 'Manager',
-            salary: 60000,
-            department_id: 1
-        };
-        await pool.query('INSERT INTO roles (title, salary, department_id) VALUES ($1, $2, $3)', [roleData.title, roleData.salary, roleData.department_id]);
         
-        console.log("Role added successfully");
+        const departmentId = 1; // Assuming a default department ID for now
+        
+        const roleData = {
+            title: roleName.role_name,
+            salary: salary.salary,
+            department_id: departmentId
+        };
+        
+        try {
+            await pool.query('INSERT INTO roles (title, salary, department_id) VALUES ($1, $2, $3)', [roleData.title, roleData.salary, roleData.department_id]);
+            console.log("Role added successfully");
+        } catch (error) {
+            console.error("Error adding role:", error.message);
+        }
 
     } else if (answers.selection === 'View all employees') {
         // View all employees
